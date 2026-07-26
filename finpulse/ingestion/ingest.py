@@ -19,7 +19,7 @@ from db.models import Company, PriceHistory
 from data.fetch_stock import get_stock_snapshot, get_stock_history
 from ingestion.companies import COMPANIES
 
-DELAY_BETWEEN_TICKERS_SECONDS = 120
+DELAY_BETWEEN_TICKERS_SECONDS = 180
 
 
 def ingest_company(ticker: str, session):
