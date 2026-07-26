@@ -5,6 +5,7 @@ Wraps yfinance to fetch live fundamentals and historical price data
 for a single stock ticker.
 """
 
+import random
 import time
 
 import yfinance as yf
@@ -32,7 +33,7 @@ def _with_retries(fn, *, retries: int = 8, base_delay: float = 10.0):
         except Exception as err:
             if not _is_rate_limit_error(err) or attempt == retries - 1:
                 raise
-            wait = base_delay * (2 ** attempt)
+            wait = base_delay * (2 ** attempt) + random.uniform(5, 15)
             print(f"    rate limited, backing off {wait:.0f}s "
                   f"(retry {attempt + 1}/{retries - 1})...")
             time.sleep(wait)
