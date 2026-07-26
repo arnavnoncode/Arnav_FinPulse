@@ -10,8 +10,9 @@ Includes a small delay between tickers to reduce the chance of
 Yahoo Finance rate-limiting the run.
 """
 
-import time
+import argparse
 import random
+import time
 from datetime import datetime
 
 from db.database import SessionLocal
@@ -65,21 +66,60 @@ def ingest_company(ticker: str, session):
         ))
 
 
-def run_ingestion():
+def run_ingestion(tickers: list[str], delay: float = DELAY_BETWEEN_TICKERS_SECONDS):
     session = SessionLocal()
-    for i, ticker in enumerate(COMPANIES):
+    for i, ticker in enumerate(tickers):
         try:
-            print(f"[{i+1}/{len(COMPANIES)}] Ingesting {ticker}...")
+            print(f"[{i+1}/{len(tickers)}] Ingesting {ticker}...")
             ingest_company(ticker, session)
             session.commit()
         except Exception as e:
             print(f"  Failed for {ticker}: {e}")
             session.rollback()
-        time.sleep(DELAY_BETWEEN_TICKERS_SECONDS)
+        time.sleep(delay + random.uniform(5, 15))
 
     session.close()
     print("Ingestion complete.")
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run FinPulse ingestion in smaller batches")
+    parser.add_argument(
+        "--tickers",
+        type=str,
+        help="Comma-separated list of tickers to ingest, e.g. RELIANCE.NS,TCS.NS",
+    )
+    parser.add_argument(
+        "--start",
+        type=int,
+        default=0,
+        help="First index of the tracked ticker list to ingest",
+    )
+    parser.add_argument(
+        "--count",
+        type=int,
+        default=0,
+        help="Number of tickers to ingest from the start index; 0 means all remaining",
+    )
+    parser.add_argument(
+        "--delay",
+        type=float,
+        default=DELAY_BETWEEN_TICKERS_SECONDS,
+        help="Seconds to wait between tickers",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    run_ingestion()
+    args = parse_args()
+
+    if args.tickers:
+        tickers = [t.strip().upper() for t in args.tickers.split(",") if t.strip()]
+    else:
+        tickers = COMPANIES[args.start: args.start + args.count] if args.count else COMPANIES[args.start:]
+
+    if not tickers:
+        raise SystemExit("No tickers selected for ingestion.")
+
+    print(f"Ingesting {len(tickers)} tickers: {tickers}")
+    run_ingestion(tickers=tickers, delay=args.delay)
