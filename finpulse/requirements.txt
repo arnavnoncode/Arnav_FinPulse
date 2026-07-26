@@ -1,0 +1,26 @@
+# Data fetching
+# Use 0.2.43 for Python 3.9 compatibility
+yfinance==0.2.43
+pandas==2.2.3
+
+# Database
+SQLAlchemy==2.0.36
+psycopg2-binary==2.9.9   # only needed if using Postgres/Supabase instead of SQLite
+
+# Backend API
+fastapi==0.115.6
+uvicorn==0.34.0
+pydantic==2.10.4
+
+# Dashboard
+streamlit==1.41.1
+plotly==5.24.1
+requests==2.32.3
+
+# Chatbot (LangChain + LangGraph)
+langchain-core==0.3.31   # 0.3.29 is unresolvable: langchain-anthropic 0.3.4 needs >=0.3.31
+langchain-anthropic==0.3.4
+langgraph==0.2.62
+
+# Utilities
+python-dotenv==1.0.1

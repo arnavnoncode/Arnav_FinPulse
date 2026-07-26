@@ -1,0 +1,20 @@
+# Data fetching
+yfinance==0.2.54
+pandas==2.2.3
+
+# Database
+SQLAlchemy==2.0.36
+psycopg2-binary==2.9.9   # only needed if you go Postgres/Supabase instead of SQLite
+
+# Backend API
+fastapi==0.115.6
+uvicorn==0.34.0
+pydantic==2.10.4
+
+# Dashboard
+streamlit==1.41.1
+plotly==5.24.1             # for interactive charts, candlesticks etc.
+
+# Utilities
+python-dotenv==1.0.1
+requests==2.32.3
