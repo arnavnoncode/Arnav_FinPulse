@@ -62,12 +62,16 @@ After deployment on Streamlit Cloud:
 
 1. Go to your app's settings
 2. Click "Secrets"
-3. Set the environment variable:
-   ```
+3. Add the required values:
+   ```toml
    API_URL = "https://your-deployed-backend.com"
+   ANTHROPIC_API_KEY = "your_real_anthropic_key"
+   CHATBOT_MODEL = "claude-sonnet-4-6"
    ```
 
 Replace `your-deployed-backend.com` with your actual deployed API URL.
+
+If you are deploying the FastAPI backend separately, set the same variables in that platform's environment settings as well.
 
 ## Step 4: Test the Deployment
 

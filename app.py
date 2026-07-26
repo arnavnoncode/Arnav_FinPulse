@@ -22,6 +22,22 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+
+def _load_runtime_secrets():
+    """Load deployment secrets from Streamlit Cloud into the environment."""
+    for key in ("API_URL", "ANTHROPIC_API_KEY", "CHATBOT_MODEL"):
+        if os.getenv(key):
+            continue
+        try:
+            value = st.secrets[key]
+        except Exception:
+            continue
+        if value:
+            os.environ[key] = str(value)
+
+
+_load_runtime_secrets()
+
 # Configuration
 API_URL = os.getenv("API_URL", "http://localhost:8000")
 
