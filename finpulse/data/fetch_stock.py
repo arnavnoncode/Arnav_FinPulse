@@ -21,7 +21,7 @@ def _is_rate_limit_error(err: Exception) -> bool:
     return "too many requests" in msg or "rate limit" in msg or "429" in msg
 
 
-def _with_retries(fn, *, retries: int = 5, base_delay: float = 5.0):
+def _with_retries(fn, *, retries: int = 8, base_delay: float = 10.0):
     """
     Call fn(), retrying on rate-limit errors with exponential backoff
     (base_delay, 2x, 4x, ...). Non-rate-limit errors are raised immediately.
