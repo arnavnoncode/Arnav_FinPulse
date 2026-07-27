@@ -89,14 +89,16 @@ def run_mock_ingest():
     This is for debugging deployed environments where release/start commands
     may not be running the seeder as expected.
     """
+
     try:
-        # Import locally to avoid startup-time side effects
-        from ingestion import mock_ingest
+        # Import the module explicitly so it works regardless of package __init__
+        import importlib
+        mod = importlib.import_module("ingestion.mock_ingest")
     except Exception as e:
         return {"status": "error", "error": f"import failed: {e}"}
 
     try:
-        mock_ingest.ingest_mock_data()
+        mod.ingest_mock_data()
     except Exception as e:
         return {"status": "error", "error": f"seeder failed: {e}"}
 
