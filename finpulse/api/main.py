@@ -65,3 +65,18 @@ def create_database_tables() -> None:
 @app.get("/")
 def root():
     return {"status": "ok", "message": "FinPulse API is running"}
+
+
+@app.get("/_debug/db_counts")
+def debug_db_counts():
+    """Return counts of key tables to help debug deployed DB state."""
+    from db.database import SessionLocal
+    from db.models import Company, PriceHistory
+
+    session = SessionLocal()
+    try:
+        companies = session.query(Company).count()
+        history = session.query(PriceHistory).count()
+        return {"companies": companies, "price_history_rows": history}
+    finally:
+        session.close()
