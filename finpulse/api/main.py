@@ -19,6 +19,10 @@ from api.routes import stocks, summary
 from chatbot.routes import router as chatbot_router
 from db.database import engine
 from db.models import Base
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 app = FastAPI(title="FinPulse API", version="1.0")
 
@@ -37,7 +41,25 @@ app.include_router(chatbot_router)
 @app.on_event("startup")
 def create_database_tables() -> None:
     """Ensure SQLite tables exist before the API receives requests."""
+    # Ensure tables
     Base.metadata.create_all(bind=engine)
+
+    # Diagnostic logs for deployment troubleshooting
+    try:
+        print("[startup] CWD:", os.getcwd())
+        db_path = os.getenv("DATABASE_URL", "sqlite:///finpulse.db")
+        print("[startup] DATABASE_URL:", db_path)
+        # If using sqlite, check if the file exists (strip sqlite:///)
+        if db_path.startswith("sqlite"):
+            path = db_path.split("///")[-1]
+            print(f"[startup] sqlite file path: {path}")
+            print("[startup] file exists:", os.path.exists(path))
+            try:
+                print("[startup] repo listing:", os.listdir("."))
+            except Exception as e:
+                print("[startup] listing failed:", e)
+    except Exception as e:
+        print("[startup] diagnostics failed:", e)
 
 
 @app.get("/")
