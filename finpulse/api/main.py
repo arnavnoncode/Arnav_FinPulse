@@ -101,6 +101,16 @@ def run_mock_ingest():
         "BHARTIARTL.NS": {"price": 1255.75, "market_cap": 405000000000, "pe_ratio": 18.6, "eps": 67.4},
         "ITC.NS": {"price": 425.40, "market_cap": 420000000000, "pe_ratio": 18.3, "eps": 23.2},
         "KOTAKBANK.NS": {"price": 1885.50, "market_cap": 385000000000, "pe_ratio": 21.4, "eps": 88.0},
+        "WIPRO.NS": {"price": 425.60, "market_cap": 310000000000, "pe_ratio": 22.3, "eps": 19.1},
+        "MARUTI.NS": {"price": 10750.25, "market_cap": 305000000000, "pe_ratio": 18.7, "eps": 574.6},
+        "AXISBANK.NS": {"price": 1020.45, "market_cap": 295000000000, "pe_ratio": 15.2, "eps": 67.2},
+        "ADANIGREEN.NS": {"price": 1870.80, "market_cap": 285000000000, "pe_ratio": 32.5, "eps": 57.5},
+        "LT.NS": {"price": 3185.50, "market_cap": 270000000000, "pe_ratio": 26.8, "eps": 118.9},
+        "ULTRACEMCO.NS": {"price": 9850.75, "market_cap": 265000000000, "pe_ratio": 28.3, "eps": 348.2},
+        "EICHERMOT.NS": {"price": 3250.30, "market_cap": 220000000000, "pe_ratio": 21.6, "eps": 150.5},
+        "POWERGRID.NS": {"price": 315.60, "market_cap": 210000000000, "pe_ratio": 19.4, "eps": 16.3},
+        "GAIL.NS": {"price": 175.45, "market_cap": 125000000000, "pe_ratio": 12.1, "eps": 14.5},
+        "ONGC.NS": {"price": 285.20, "market_cap": 185000000000, "pe_ratio": 10.8, "eps": 26.4},
     }
 
     session = SessionLocal()

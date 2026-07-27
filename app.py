@@ -122,15 +122,18 @@ with tab_dashboard:
             try:
                 summary = requests.get(f"{API_URL}/market-summary", timeout=10).json()
                 st.subheader("Market Summary")
-                col1, col2, col3 = st.columns(3)
+                col1, col2, col3, col4 = st.columns(4)
                 with col1:
-                    st.metric("Avg P/E", f"{summary.get('avg_pe_ratio', 'N/A'):.2f}")
+                    st.metric("Tracked Companies", summary.get('total_companies', 0))
                 with col2:
-                    st.metric("Total Market Cap", f"₹ {summary.get('total_market_cap', 0) / 1e7:,.0f} Cr")
+                    avg_pe = summary.get('average_pe_ratio')
+                    st.metric("Avg P/E", f"{avg_pe:.2f}" if avg_pe else "N/A")
                 with col3:
-                    st.metric("Tracked Companies", summary.get('company_count', 0))
-            except Exception:
-                st.warning("Could not fetch market summary.")
+                    st.metric("Top Gainer", summary.get('top_gainer', 'N/A'))
+                with col4:
+                    st.metric("Highest Market Cap", summary.get('highest_market_cap', 'N/A'))
+            except Exception as e:
+                st.warning(f"Could not fetch market summary: {e}")
 
         except Exception as e:
             st.error(f"Error loading company details: {e}")
