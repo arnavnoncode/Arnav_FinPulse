@@ -9,7 +9,7 @@ services:
       repo: arnavnoncode/Arnav_FinPulse
       branch: main
     buildCommand: pip install -r requirements.txt
-    # Run mock seeder first (ensures DB is populated), then start the web server.
-    startCommand: python -m finpulse.ingestion.mock_ingest && uvicorn finpulse.api.main:app --host 0.0.0.0 --port 8000
-    # releaseCommand kept for compatibility but startCommand will ensure seeding runs
-    releaseCommand: python -m finpulse.ingestion.mock_ingest
+    # The API seeds mock data itself on startup if the companies table is
+    # empty (see finpulse/api/main.py's startup hook), so no separate
+    # seeding process is needed here.
+    startCommand: uvicorn finpulse.api.main:app --host 0.0.0.0 --port 8000
